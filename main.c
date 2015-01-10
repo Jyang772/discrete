@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdarg.h>
 
 struct Relations{
 
@@ -12,11 +13,59 @@ void setRelations()
 
 }
 
-void toBinaryMatrix(int ***x, int **result){
+//    char buffer[1000];
+//    int count = 0;
+//    double sum = 0;
+//    int num;
+//    fgets(buffer, sizeof buffer, stdin);
+//    const char *p = buffer;
+//    int n;
+//    while (sscanf(p, "%d%n", &num, &n) == 1) {
+//      p += n;
+//      ; // do something with `num`
+//      sum += num;
+//      count++;
+//    }
+//    printf("Average %f\n", sum/count);
+
+void getUserInput(int **A, int **B)
+{
 
 
-    int A[] = {1,2,3};
-    int B[] = {1,2,3};
+    int num1,num2;
+    printf("Enter the number of elements in set A: ");
+    scanf("%d",&num1);
+
+    *A = (int*)malloc(num1 * sizeof(int));
+
+    printf("Enter %d elements in set A: ",num1);
+    for(int i=0;i<num1;i++)
+    {
+    scanf("%d",&(*A)[i]);
+    }
+
+    printf("Enter the number of elements in set B: ");
+    scanf("%d",&num2);
+
+    *B = (int*)malloc(num1 * sizeof(int));
+
+    printf("Enter %d elements in set B: ",num2);
+    for(int i=0; i<num2; i++)
+    {
+        scanf("%d",&(*B)[i]);
+    }
+
+//    for(int i=0; i<num1;i++)
+//        printf("%d",A[i]);
+
+
+}
+
+void toBinaryMatrix(int ***x, int *A, int *B, int **result){
+
+
+    //int A[] = {1,2,3};
+    //int B[] = {1,2,3};
     for(int i=0; i<3; i++)
     {
         for(int j=0; j<3; j++){
@@ -52,8 +101,13 @@ int reflexive(int **matrix, int matrixOrder) {
 
 int main(void)
 {
-    int A[] = {1,2,3};
-    int B[] = {1,2,3};
+    int *A;
+    int *B;
+
+    getUserInput(&A,&B);
+
+    for(int i=0; i<3;i++)
+        printf("%d",A[i]);
 
     int **x;
     int dim = 3;
@@ -86,7 +140,7 @@ int main(void)
 //       }
 //    }
     int **z;
-    toBinaryMatrix(&x,z);
+    toBinaryMatrix(&x,A,B,z);
 
    for(int i=0; i<3; i++){
        for(int j=0; j<3; j++)
