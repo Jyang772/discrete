@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 struct Relations{
 
@@ -22,6 +23,16 @@ int cmpEqual(int A, int B)
     return (A == B);
 }
 
+int cmpGreaterThan(int A, int B)
+{
+    return (A >= B);
+}
+
+
+int cmpLessThan(int A, int B)
+{
+    return (A <= B);
+}
 //    char buffer[1000];
 //    int count = 0;
 //    double sum = 0;
@@ -62,6 +73,16 @@ void getUserInput(int **A, int **B)
     for(int i=0; i<num2; i++)
     {
         scanf("%d",&(*B)[i]);
+    }
+
+    char *input = (char*)malloc(256);
+    printf("Enter type of relation (==,<=,>=): ");
+    scanf("%s",input);
+
+    printf("debug: %s\n",input);
+
+    if(strcmp(input,"==") == 0){
+        printf("yesh!\n"); //set function pointer here monica.
     }
 
 //    for(int i=0; i<num1;i++)
@@ -156,7 +177,7 @@ int main(void)
 //    }
 
     int **z;
-    relation = cmpEqual;
+    relation = cmpLessThan; //Get user input here monica.
     toBinaryMatrix(&x,A,B,relation,z);
 
    for(int i=0; i<3; i++){
