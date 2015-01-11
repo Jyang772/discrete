@@ -1,3 +1,7 @@
+//Justin Y.
+//Matrix library
+//GNU License
+
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -11,6 +15,11 @@ struct Relations{
 void setRelations()
 {
 
+}
+
+int cmpEqual(int A, int B)
+{
+    return (A == B);
 }
 
 //    char buffer[1000];
@@ -61,7 +70,7 @@ void getUserInput(int **A, int **B)
 
 }
 
-void toBinaryMatrix(int ***x, int *A, int *B, int **result){
+void toBinaryMatrix(int ***x, int *A, int *B, int(*cmp)(int A,int B), int **result){
 
 
     //int A[] = {1,2,3};
@@ -71,9 +80,13 @@ void toBinaryMatrix(int ***x, int *A, int *B, int **result){
         for(int j=0; j<3; j++){
 
             //use function pointer for relations
-            if(A[i] == A[j]){
+
+            if(cmp(A[i],B[j]))
                 (*x)[i][j] = 1;
-            }
+
+//            if(A[i] == A[j]){
+//                (*x)[i][j] = 1;
+//            }
             else{
                 printf("A: %d %d\n",A[i],A[j]);
                 (*x)[i][j] = 0;
@@ -103,6 +116,7 @@ int main(void)
 {
     int *A;
     int *B;
+    int (*relation)(int A,int B);
 
     getUserInput(&A,&B);
 
@@ -116,6 +130,7 @@ int main(void)
     for(int i=0; i<dim; i++){
         x[i] = (int*)malloc(dim2 * sizeof(int));
     }
+
     //{(1,1),(1,2),(1,3)}
 //    x[0][0] = 1;
 //    x[0][1] = 1;
@@ -139,8 +154,10 @@ int main(void)
 //           }
 //       }
 //    }
+
     int **z;
-    toBinaryMatrix(&x,A,B,z);
+    relation = cmpEqual;
+    toBinaryMatrix(&x,A,B,relation,z);
 
    for(int i=0; i<3; i++){
        for(int j=0; j<3; j++)
@@ -151,6 +168,7 @@ int main(void)
    printf("%d\n", reflexive(x,3));
 
     int y[] = {1,1,1,2,1,3};
+
 //    for(int i=0; i<3; i++)
 //    {
 //        printf("(");
