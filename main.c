@@ -48,7 +48,9 @@ int cmpLessThan(int A, int B)
 //    }
 //    printf("Average %f\n", sum/count);
 
-void getUserInput(int **A, int **B)
+
+//pointer to pointer ,
+void getUserInput(int **A, int **B, int (**relation)(int A, int B))
 {
 
 
@@ -82,16 +84,20 @@ void getUserInput(int **A, int **B)
     printf("debug: %s\n",input);
 
     if(strcmp(input,"==") == 0){
-        printf("yesh!\n"); //set function pointer here monica.
+        *relation = cmpEqual;
     }
+    else if(strcmp(input,"<=") == 0){
+        *relation = cmpLessThan;
+    }
+    else
+        *relation = cmpGreaterThan;
 
-//    for(int i=0; i<num1;i++)
-//        printf("%d",A[i]);
+
 
 
 }
-
-void toBinaryMatrix(int ***x, int *A, int *B, int(*cmp)(int A,int B), int **result){
+//pointer to pointer to pointer to array
+void toBinaryMatrix(int ***x, int *A, int *B, int(*cmp)(int A,int B)){
 
 
     //int A[] = {1,2,3};
@@ -135,16 +141,18 @@ int reflexive(int **matrix, int matrixOrder) {
 
 int main(void)
 {
-    int *A;
-    int *B;
-    int (*relation)(int A,int B);
 
-    getUserInput(&A,&B);
+    int *A;                       //pointer to 1D matrix array
+    int *B;
+    int (*relation)(int A,int B); //function pointer
+
+
+    getUserInput(&A,&B,&relation);
 
     for(int i=0; i<3;i++)
         printf("%d",A[i]);
 
-    int **x;
+    int **x;                      //pointer to 2D matrix array
     int dim = 3;
     int dim2 = 3;
     x = (int **)malloc(dim*sizeof(int*));
@@ -152,7 +160,28 @@ int main(void)
         x[i] = (int*)malloc(dim2 * sizeof(int));
     }
 
-    //{(1,1),(1,2),(1,3)}
+
+    //int **z;
+    //relation = cmpLessThan; //Get user input here monica.
+    toBinaryMatrix(&x,A,B,relation);
+
+   for(int i=0; i<3; i++){
+       for(int j=0; j<3; j++)
+           printf("%d ", x[i][j]);
+       printf("\n");
+   }
+
+   printf("%d\n", reflexive(x,3));
+
+
+
+
+    return 0;
+}
+
+
+
+//{(1,1),(1,2),(1,3)}
 //    x[0][0] = 1;
 //    x[0][1] = 1;
 //    x[1][0] = 1;
@@ -176,19 +205,15 @@ int main(void)
 //       }
 //    }
 
-    int **z;
-    relation = cmpLessThan; //Get user input here monica.
-    toBinaryMatrix(&x,A,B,relation,z);
+//int y[] = {1,1,1,2,1,3};
 
-   for(int i=0; i<3; i++){
-       for(int j=0; j<3; j++)
-           printf("%d ", x[i][j]);
-       printf("\n");
-   }
 
-   printf("%d\n", reflexive(x,3));
 
-    int y[] = {1,1,1,2,1,3};
+//for(int i=0; i<3;){
+//    for(int j=0; j<2; j++){
+//        printf("(%d,%d)",y[i],y[i++]);
+//    }
+//}
 
 //    for(int i=0; i<3; i++)
 //    {
@@ -202,16 +227,3 @@ int main(void)
 
 //        printf(")");
 //    }
-
-    for(int i=0; i<3;){
-        for(int j=0; j<2; j++){
-            printf("(%d,%d)",y[i],y[i++]);
-        }
-    }
-
-
-
-    return 0;
-}
-
-
